@@ -1,0 +1,5 @@
+pyserial
+pymata4
+numpy
+opencv-contrib-python
+evdev
