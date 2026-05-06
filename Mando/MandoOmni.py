@@ -4,7 +4,7 @@ import threading # Para que el codigo vea mas de una cosa a la vez
 
 import sys
 sys.path.append('/home/r2-team2/Robot')
-import Movimiento
+import Omni
 
 try:
     mando = evdev.InputDevice('/dev/input/event5')
@@ -43,14 +43,14 @@ try:
                     vel+=10
                     if vel>255:
                         vel=255
-                    Movimiento.setVelocidad(vel)
+                    Omni.setVelocidad(vel)
                     print("mas velocidad")
                     print(vel)
                 elif (evento.code == evdev.ecodes.BTN_TL ): # L1
                     vel-=10
                     if vel<0:
                         vel=0
-                    Movimiento.setVelocidad(vel)
+                    Omni.setVelocidad(vel)
                     print("menos velocidad")
                     print(vel)
                 
@@ -58,70 +58,78 @@ try:
             if evento.type == evdev.ecodes.EV_ABS: #EV_ABS detecta joysticks y gatillos
                 #Codigo para controlar velocidad con R2
                 if (evento.code == evdev.ecodes.ABS_RZ ): # Gatillo derecho
-                    Movimiento.setVelocidad(evento.value)
-                    print(evento.value)
+                    print("R2")
                     gatillo = True
                     R2 = evento.value
-                elif evento.code == evdev.ecodes.ABS_Z:
-                    Movimiento.setVelocidad(evento.value)
-                    print(evento.value)
+                elif evento.code == evdev.ecodes.ABS_Z: # Gatillo izquierdo
+                    print("L2")
                     gatillo = True
                     L2=evento.value
+                if evento.code == evdev.ecodes.ABS_RX: #Joystick derecho
+                    joyRX = (evento.value - 128) / 1.28
+                if L2>0 or joyRX<-50:
+                    Omni.GiroIzq()
+                    print("Giro Izquierda")
+                elif R2>0 or joyRX<50:
+                    Omni.GiroIzq()
+                    print("Giro Derecha")
+
+
                 if evento.code == evdev.ecodes.ABS_X:
                     joyX = (evento.value - 128) / 1.28      # Operacion para cambiar a valores de -100 a 100
                 elif evento.code == evdev.ecodes.ABS_Y:
                     joyY = (128 - evento.value) / 1.28
                 if gatillo==False:
-                    Movimiento.setVelocidad(vel)
+                    Omni.setVelocidad(vel)
                     if (joyY>50):
                         if(joyX>50):
-                            Movimiento.AvanzaDer()
+                            Omni.AvanzaDer()
                             print("Adelante derecha")
                         elif(joyX<-50):
-                            Movimiento.AvanzaIzq()
+                            Omni.AvanzaIzq()
                             print("Adelante izquierda")
                         else:
-                            Movimiento.Avanza()
+                            Omni.Avanza()
                             print("Adelante")
                     elif (joyY<-50):
                         if(joyX>50):
-                            Movimiento.AtrasDer()
+                            Omni.AtrasDer()
                             print("Atras derecha")
                         elif(joyX<-50):
-                            Movimiento.AtrasIzq()
+                            Omni.AtrasIzq()
                             print("Atras izquierda")
                         else:
-                            Movimiento.Atras()
+                            Omni.Atras()
                             print("Atras joystick")
                     elif(joyX>50):
-                        Movimiento.Derecha()
+                        Omni.Derecha()
                         print("Derecha")
                     elif(joyX<-50):
-                        Movimiento.Izquierda()
+                        Omni.Izquierda()
                         print("Izquierda")
                     else:
-                        Movimiento.Stop()
+                        Omni.Stop()
                         # print("Stop")
                 else:
                     if R2>0:
                         if(joyX>50):
-                            Movimiento.AvanzaDer()
+                            Omni.AvanzaDer()
                             print("Avanza Derecha")
                         elif(joyX<-50):
-                            Movimiento.AvanzaIzq()
+                            Omni.AvanzaIzq()
                             print("Avanza Izquierda")
                         else:
-                            Movimiento.Avanza()
+                            Omni.Avanza()
                             print("Avanza")
                     elif L2>0:
                         if(joyX>50):
-                            Movimiento.AtrasDer()
+                            Omni.AtrasDer()
                             print("Atras Derecha")
                         elif(joyX<-50):
-                            Movimiento.AtrasIzq()
+                            Omni.AtrasIzq()
                             print("Atras Izquierda")
                         else:
-                            Movimiento.Atras()
+                            Omni.Atras()
                             print("Atras gatillo")
 
 
@@ -129,7 +137,7 @@ try:
 
 except KeyboardInterrupt:
     print("Deten con ctrl+c")
-    Movimiento.Stop()
-    Movimiento.board.shutdown()
+    Omni.Stop()
+    Omni.board.shutdown()
 
 
