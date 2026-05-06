@@ -1,0 +1,136 @@
+
+import evdev # Para traducir el control de play
+import threading # Para que el codigo vea mas de una cosa a la vez
+
+import sys
+sys.path.append('/home/r2-team2/Robot')
+import Movimiento
+
+try:
+    mando = evdev.InputDevice('/dev/input/event5')
+    print("Conectado")
+except:
+    print("Error de conexion al control")
+    exit()
+
+joyX=0
+joyY=0
+vel = 130
+apagado = False
+R2 = 0
+L2 = 0
+
+
+
+try:
+    for evento in mando.read_loop():
+        frenando = False
+        if R2 ==0 and L2==0: gatillo=False
+        if evento.type == evdev.ecodes.EV_KEY:
+            if evento.code == evdev.ecodes.BTN_MODE:
+                if evento.value == 1:
+                    if apagado == True:
+                        apagado = False
+                        vel = 130
+                        print("Prendido")
+                    else:
+                        apagado = True
+                        vel = 0
+                        print("Apagado")
+        if apagado == False:
+            if evento.type == evdev.ecodes.EV_KEY:
+            # Cdigo para aumentar velocidad con R1 y bajar con L1
+                if evento.code == evdev.ecodes.BTN_TR: # R1
+                    vel+=10
+                    if vel>255:
+                        vel=255
+                    Movimiento.setVelocidad(vel)
+                    print("mas velocidad")
+                    print(vel)
+                elif (evento.code == evdev.ecodes.BTN_TL ): # L1
+                    vel-=10
+                    if vel<0:
+                        vel=0
+                    Movimiento.setVelocidad(vel)
+                    print("menos velocidad")
+                    print(vel)
+                
+
+            if evento.type == evdev.ecodes.EV_ABS: #EV_ABS detecta joysticks y gatillos
+                #Codigo para controlar velocidad con R2
+                if (evento.code == evdev.ecodes.ABS_RZ ): # Gatillo derecho
+                    Movimiento.setVelocidad(evento.value)
+                    print(evento.value)
+                    gatillo = True
+                    R2 = evento.value
+                elif evento.code == evdev.ecodes.ABS_Z:
+                    Movimiento.setVelocidad(evento.value)
+                    print(evento.value)
+                    gatillo = True
+                    L2=evento.value
+                if evento.code == evdev.ecodes.ABS_X:
+                    joyX = (evento.value - 128) / 1.28      # Operacion para cambiar a valores de -100 a 100
+                elif evento.code == evdev.ecodes.ABS_Y:
+                    joyY = (128 - evento.value) / 1.28
+                if gatillo==False:
+                    Movimiento.setVelocidad(vel)
+                    if (joyY>50):
+                        if(joyX>50):
+                            Movimiento.AvanzaDer()
+                            print("Adelante derecha")
+                        elif(joyX<-50):
+                            Movimiento.AvanzaIzq()
+                            print("Adelante izquierda")
+                        else:
+                            Movimiento.Avanza()
+                            print("Adelante")
+                    elif (joyY<-50):
+                        if(joyX>50):
+                            Movimiento.AtrasDer()
+                            print("Atras derecha")
+                        elif(joyX<-50):
+                            Movimiento.AtrasIzq()
+                            print("Atras izquierda")
+                        else:
+                            Movimiento.Atras()
+                            print("Atras joystick")
+                    elif(joyX>50):
+                        Movimiento.Derecha()
+                        print("Derecha")
+                    elif(joyX<-50):
+                        Movimiento.Izquierda()
+                        print("Izquierda")
+                    else:
+                        Movimiento.Stop()
+                        # print("Stop")
+                else:
+                    if R2>0:
+                        if(joyX>50):
+                            Movimiento.AvanzaDer()
+                            print("Avanza Derecha")
+                        elif(joyX<-50):
+                            Movimiento.AvanzaIzq()
+                            print("Avanza Izquierda")
+                        else:
+                            Movimiento.Avanza()
+                            print("Avanza")
+                    elif L2>0:
+                        if(joyX>50):
+                            Movimiento.AtrasDer()
+                            print("Atras Derecha")
+                        elif(joyX<-50):
+                            Movimiento.AtrasIzq()
+                            print("Atras Izquierda")
+                        else:
+                            Movimiento.Atras()
+                            print("Atras gatillo")
+
+
+
+
+except KeyboardInterrupt:
+    print("Deten con ctrl+c")
+    Movimiento.Stop()
+    Movimiento.board.shutdown()
+
+
