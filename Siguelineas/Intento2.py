@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import sys
 
-sys.path.append('/home/r2-team2/Robot')
+sys.path.append('/home/asti/CodigosRobot')
 import Movimiento
 
 # ══════════════════════════════════════════════════════════════
@@ -13,14 +13,14 @@ CENTRO_X     = 320
 
 # Velocidades
 VEL_RECTA    = 135
-VEL_CURVA    = 115
-VEL_GIRO     = 95    # curvas suaves / rombos
-VEL_90       = 80    # ← NUEVO: giros de 90° (el más lento)
-VEL_RECOVERY = 85
+VEL_CURVA    = 120
+VEL_GIRO     = 120    # curvas suaves / rombos
+VEL_90       = 120    # ← NUEVO: giros de 90° (el más lento)
+VEL_RECOVERY = 115
 
 # Control proporcional
 KP           = 0.22
-ZONA_MUERTA  = 28    # ← BAJADO de 70 a 28 (reacción más rápida)
+ZONA_MUERTA  = 55    # ← BAJADO de 70 a 28 (reacción más rápida)
 
 # Umbrales de error
 ERR_RECTA    = 40
@@ -35,7 +35,7 @@ MAX_PERDIDO  = 30
 # ROI doble
 ROI_CERCA    = (320, 430)   # ← SUBIDA: ve la línea antes (era 360,460)
 ROI_LEJOS    = (170, 290)   # ← SUBIDA en paralelo
-PESO_LEJOS   = 0.40         # ← SUBIDO de 0.35 a 0.40 (más anticipación)
+PESO_LEJOS   = 0.50         # ← SUBIDO de 0.35 a 0.40 (más anticipación)
 
 # Intersección
 AREA_INTERSECCION = 4000
@@ -93,9 +93,7 @@ def preprocesar_roi(frame, y_ini, y_fin):
 # ══════════════════════════════════════════════════════════════
 def analizar_contornos(thresh):
     h = thresh.shape[0]
-    contornos, _ = cv2.findContours(thresh,
-                                    cv2.RETR_EXTERNAL,
-                                    cv2.CHAIN_APPROX_SIMPLE)
+    contornos, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     candidatos = []
     for c in contornos:
         area = cv2.contourArea(c)
@@ -172,8 +170,7 @@ def filtrar_paralelas_y_elegir_mas_gorda(candidatos):
     if grupo_paralelo is None:
         return None
 
-    mejor = max(grupo_paralelo,
-                key=lambda i: obtener_grosor(candidatos[i][5]))
+    mejor = max(grupo_paralelo, key=lambda i: obtener_grosor(candidatos[i][5]))
     grosor_elegido = obtener_grosor(candidatos[mejor][5])
 
     if grosor_elegido < GROSOR_MIN_LINEA:
@@ -344,8 +341,7 @@ while True:
         if not es_interseccion and not modo_giro_brusco and cands_lejos:
             cx_l        = cands_lejos[0][1]
             error_lejos = cx_l - CENTRO_X
-            error_final = int(error_cerca * (1 - PESO_LEJOS)
-                              + error_lejos * PESO_LEJOS)
+            error_final = int(error_cerca * (1 - PESO_LEJOS) + error_lejos * PESO_LEJOS)
 
         # ── 5. Control proporcional ────────────────────────────
         error_p = int(KP * error_final)
@@ -394,23 +390,14 @@ while True:
                 modo_label = ""
                 modo_color = (180, 180, 0)
 
-            cv2.putText(display,
-                        f"ErrX:{error_final:+d} P:{error_p:+d} Vel:{vel}  {accion}",
-                        (8, 22), cv2.FONT_HERSHEY_SIMPLEX, 0.52,
-                        (0, 255, 0) if "AVANZA" in accion else (0, 140, 255), 2)
-            cv2.putText(display,
-                        f"Area:{int(area_c)}  Ang:{ang_c:.1f}  {modo_label}",
-                        (8, 44), cv2.FONT_HERSHEY_SIMPLEX, 0.48, modo_color, 1)
-            cv2.putText(display,
-                        f"Grosor:{grosor_vis:.0f}px  Cands:{len(cands_cerca)}"
-                        f"  90°frames:{frames_error_alto}",
-                        (8, 64), cv2.FONT_HERSHEY_SIMPLEX, 0.44, (180, 180, 0), 1)
+            cv2.putText(display, f"ErrX:{error_final:+d} P:{error_p:+d} Vel:{vel}  {accion}", (8, 22), cv2.FONT_HERSHEY_SIMPLEX, 0.52, (0, 255, 0) if "AVANZA" in accion else (0, 140, 255), 2)
+            cv2.putText(display, f"Area:{int(area_c)}  Ang:{ang_c:.1f}  {modo_label}", (8, 44), cv2.FONT_HERSHEY_SIMPLEX, 0.48, modo_color, 1)
+            cv2.putText(display, f"Grosor:{grosor_vis:.0f}px  Cands:{len(cands_cerca)}" f"  90°frames:{frames_error_alto}", (8, 64), cv2.FONT_HERSHEY_SIMPLEX, 0.44, (180, 180, 0), 1)
 
             th_c_bgr   = cv2.cvtColor(cv2.resize(th_c, (320, 80)), cv2.COLOR_GRAY2BGR)
             th_l_bgr   = cv2.cvtColor(cv2.resize(th_l, (320, 80)), cv2.COLOR_GRAY2BGR)
             disp_small = cv2.resize(display, (320, 240))
-            panel      = np.vstack([th_c_bgr, th_l_bgr,
-                                    np.zeros((80, 320, 3), np.uint8)])
+            panel      = np.vstack([th_c_bgr, th_l_bgr, np.zeros((80, 320, 3), np.uint8)])
             cv2.imshow("v4 | Frame | ROI_C | ROI_L", np.hstack([disp_small, panel]))
 
     else:
@@ -419,13 +406,10 @@ while True:
 
         if DEBUG:
             display = frame.copy()
-            cv2.putText(display,
-                        f"PERDIDO ({cont_perdido}/{MAX_PERDIDO})  {accion}",
-                        (8, 28), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+            cv2.putText(display, f"PERDIDO ({cont_perdido}/{MAX_PERDIDO})  {accion}", (8, 28), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
             th_c_bgr   = cv2.cvtColor(cv2.resize(th_c, (320, 80)), cv2.COLOR_GRAY2BGR)
             disp_small = cv2.resize(display, (320, 240))
-            panel      = np.vstack([th_c_bgr,
-                                    np.zeros((160, 320, 3), np.uint8)])
+            panel      = np.vstack([th_c_bgr, np.zeros((160, 320, 3), np.uint8)])
             cv2.imshow("v4 | Frame | ROI_C | ROI_L", np.hstack([disp_small, panel]))
 
     if DEBUG:

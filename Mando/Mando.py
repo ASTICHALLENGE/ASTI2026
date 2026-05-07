@@ -3,7 +3,7 @@ import evdev # Para traducir el control de play
 import threading # Para que el codigo vea mas de una cosa a la vez
 
 import sys
-sys.path.append('/home/r2-team2/Robot')
+sys.path.append('/home/asti/CodigosRobot')
 import Movimiento
 
 try:

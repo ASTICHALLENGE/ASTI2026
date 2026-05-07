@@ -2,7 +2,7 @@ import threading # Para que el codigo vea mas de una cosa a la vez
 import cv2
 
 import sys
-sys.path.append('/home/r2-team2/Robot')
+sys.path.append('/home/asti/CodigosRobot')
 import Movimiento
 
 cam = cv2.VideoCapture(0)
