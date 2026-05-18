@@ -35,7 +35,7 @@ from config import (
 BUSQUEDA = "BUSQUEDA"
 ORIENTAR = "ORIENTAR"
 SEGUIR   = "SEGUIR"
-ATAQUE   = "ATAQUE"
+ATAQUE   = "ATAQUE" 
 EVASION  = "EVASION"
 
 # ── Variables de estado ───────────────────────────────────────────────────────
@@ -117,8 +117,7 @@ def estado_seguir(angle_error, rival_offset_px):
     else:
         mot.Avanza()
 
-    print(f"  [SEGUIR] Avanzando | LiDAR err={angle_error:.1f}° | "
-          f"Cam off={rival_offset_px:+d}px")
+    print(f"  [SEGUIR] Avanzando | LiDAR err={angle_error:.1f}° | " f"Cam off={rival_offset_px:+d}px")
 
 
 def estado_ataque():
@@ -144,12 +143,7 @@ def estado_evasion(line_side):
         # Línea centrada: el robot está recto sobre el borde → giro grande
         turn_dir = "derecha"
 
-    mot.ejecutar_evasion(
-        direccion = turn_dir,
-        vel       = VEL_EVASION,
-        t_atras   = EVADE_BACK_DURATION,
-        t_giro    = EVADE_TURN_DURATION,
-    )
+    mot.ejecutar_evasion(direccion = turn_dir, vel = VEL_EVASION, t_atras = EVADE_BACK_DURATION, t_giro = EVADE_TURN_DURATION)
     print(f"  [EVASION] Maniobra completada. Girando {turn_dir}.")
 
 
@@ -231,10 +225,7 @@ def main():
             estado_orientar(datos.get("angle_error", 0))
 
         elif estado_actual == SEGUIR:
-            estado_seguir(
-                datos.get("angle_error", 0),
-                datos.get("rival_offset", 0),
-            )
+            estado_seguir(datos.get("angle_error", 0), datos.get("rival_offset", 0))
 
         elif estado_actual == ATAQUE:
             estado_ataque()
