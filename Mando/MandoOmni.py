@@ -68,11 +68,11 @@ try:
                 if evento.code == evdev.ecodes.ABS_RX: #Joystick derecho
                     joyRX = (evento.value - 128) / 1.28
                 if L2>0 or joyRX<-50:
-                    Omni.GiroIzq()
-                    print("Giro Izquierda")
-                elif R2>0 or joyRX<50:
-                    Omni.GiroIzq()
-                    print("Giro Derecha")
+                    Omni.Izquierda()
+                    print("Izquierda")
+                elif R2>0 or joyRX>50:
+                    Omni.Derecha()
+                    print("Derecha")
 
 
                 if evento.code == evdev.ecodes.ABS_X:
@@ -102,11 +102,11 @@ try:
                             Omni.Atras()
                             print("Atras joystick")
                     elif(joyX>50):
-                        Omni.Derecha()
-                        print("Derecha")
+                        Omni.GiroDer()
+                        print("Giro Derecha")
                     elif(joyX<-50):
-                        Omni.Izquierda()
-                        print("Izquierda")
+                        Omni.GiroIzq()
+                        print("Giro Izquierda")
                     else:
                         Omni.Stop()
                         # print("Stop")

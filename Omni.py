@@ -7,17 +7,17 @@ board = pymata4.Pymata4()
 # 21 --> Derecha Arriba
 # 22 --> Derecha Abajo
 
-mot11A = 4
-mot11R = 4
+mot11A = 3
+mot11R = 2
 
-mot12A = 3
-mot12R = 3
+mot12A = 4
+mot12R = 5
 
 mot21A = 6
-mot21R = 6
+mot21R = 7
 
-mot22A = 5
-mot22R = 5
+mot22A = 8
+mot22R = 9
 
 vel=130
 
