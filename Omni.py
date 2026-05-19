@@ -13,11 +13,11 @@ mot11R = 2
 mot12A = 4
 mot12R = 5
 
-mot21A = 6
-mot21R = 7
+mot21A = 8
+mot21R = 9
 
-mot22A = 8
-mot22R = 9
+mot22A = 6
+mot22R = 7
 
 vel=130
 
@@ -178,6 +178,7 @@ def Stop():
     board.pwm_write(mot22R, 0)
 
 def setVelocidad(velocidad):
+    global vel
     if(velocidad>255):
         vel=255
     elif(velocidad<0):

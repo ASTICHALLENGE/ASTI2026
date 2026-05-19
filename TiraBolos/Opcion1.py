@@ -40,9 +40,9 @@ while True:
 
     if pixMed > pixDer and pixMed > pixIzq:
         mov.Avanza()
-        time.sleep(1)
+        time.sleep(2)
         mov.Atras()
-        time.sleep(1)
+        time.sleep(2)
     elif pixIzq > pixMed:
         mov.Izquierda()
     else:
@@ -55,5 +55,5 @@ while True:
 
 cam.release() #Para dejar de usar la camara
 cv2.destroyAllWindows() #Para cerrar las pestanas
-mov.stop()
+mov.Stop()
 mov.setVelocidad(0)

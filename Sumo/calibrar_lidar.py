@@ -21,7 +21,7 @@ def main():
     ydlidar.os_init()
     laser = ydlidar.CYdLidar()
     laser.setlidaropt(ydlidar.LidarPropSerialPort,     LIDAR_PORT)
-    laser.setlidaropt(ydlidar.LidarPropSerialBaudrate, 115200)
+    laser.setlidaropt(ydlidar.LidarPropSerialBaudrate, 128000)
     laser.setlidaropt(ydlidar.LidarPropLidarType,      ydlidar.TYPE_TRIANGLE)
     laser.setlidaropt(ydlidar.LidarPropDeviceType,     ydlidar.YDLIDAR_TYPE_SERIAL)
     laser.setlidaropt(ydlidar.LidarPropScanFrequency,  10.0)

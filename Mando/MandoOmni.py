@@ -26,7 +26,7 @@ gatillo = False
 
 try:
     for evento in mando.read_loop():
-        if R2 ==0 and L2==0: gatillo=False
+        if R2<=5 and L2<=5: gatillo=False
         if evento.type == evdev.ecodes.EV_KEY:
             if evento.code == evdev.ecodes.BTN_MODE:
                 if evento.value == 1:
@@ -37,6 +37,7 @@ try:
                     else:
                         apagado = True
                         vel = 0
+                        Omni.Stop()
                         print("Apagado")
         if apagado == False:
             if evento.type == evdev.ecodes.EV_KEY:

@@ -35,6 +35,7 @@ try:
                     else:
                         apagado = True
                         vel = 0
+                        Movimiento.Stop()
                         print("Apagado")
         if apagado == False:
             if evento.type == evdev.ecodes.EV_KEY:
