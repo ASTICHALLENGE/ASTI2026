@@ -15,10 +15,12 @@ except:
 
 joyX=0
 joyY=0
+joyRX=0
 vel = 130
 apagado = False
 R2 = 0
 L2 = 0
+gatillo = False
 
 
 
