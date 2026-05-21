@@ -16,8 +16,8 @@ mot12R = 5
 mot21A = 8
 mot21R = 9
 
-mot22A = 6
-mot22R = 7
+mot22A = 4
+mot22R = 5
 
 vel = 130
 
@@ -34,8 +34,8 @@ board.set_pin_mode_pwm_output(mot22A)
 board.set_pin_mode_pwm_output(mot22R)
 try:
     while True:
-        board.pwm_write(mot11A, 0)
-        board.pwm_write(mot11R, vel)
+        board.pwm_write(mot22A, 0)
+        board.pwm_write(mot22R, vel)
 
 except KeyboardInterrupt:
     board.pwm_write(mot11A, 0)
