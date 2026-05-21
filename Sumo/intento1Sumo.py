@@ -21,6 +21,7 @@ ir4 = 33 # Sensor 4 (Atras)
 blanco = 0
 negro = 1
 busqueda = 0
+cambioBusqueda = 10
 
 # 1. Creamos nuestro "Panel de Control" global
 distAct = {
@@ -143,16 +144,16 @@ try:
                 Omni.Atras()
                 busqueda=0
 
-            elif busqueda>30:
+            elif busqueda>cambioBusqueda*3:
                 Omni.AtrasIzq()
                 busqueda+=1
-                if busqueda>40: busqueda=0
+                if busqueda>cambioBusqueda*4: busqueda=0
 
-            elif busqueda>20:
+            elif busqueda>cambioBusqueda*2:
                 Omni.AtrasDer()
                 busqueda+=1
 
-            elif busqueda>10:
+            elif busqueda>cambioBusqueda:
                 Omni.AvanzaDer()
                 busqueda+=1
 
