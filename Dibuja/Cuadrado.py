@@ -17,3 +17,4 @@ time.sleep(1)
 
 Omni.Izquierda()
 time.sleep(1)
+Omni.Stop()

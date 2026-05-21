@@ -7,13 +7,14 @@ import Omni
 Omni.setVelocidad(130)
 
 Omni.Avanza()
-time.sleep(1)
+time.sleep(0.5)
 
 Omni.Derecha()
-time.sleep(2)
+time.sleep(1.5)
 
 Omni.Atras()
-time.sleep(1)
+time.sleep(0.5)
 
 Omni.Izquierda()
-time.sleep(2)
+time.sleep(1.5)
+Omni.Stop()

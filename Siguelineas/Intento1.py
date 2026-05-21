@@ -39,27 +39,45 @@ while True:
     der = thresh[:, zonaDer:640]
 
 #Cuento los pixeles blancos en el thresh (Negros en la camara) en cada zona
+    # Cuento los pixeles blancos en el thresh (Negros en la camara) en cada zona
     contIzq = cv2.countNonZero(izq)
     contMedio = cv2.countNonZero(medio)
     contDer = cv2.countNonZero(der)
 
-#Hago movimientos segun donde haya mas
-    if contIzq > contMedio and contIzq > contDer:
-        Movimiento.Izquierda()
-        print("Linea a la izquierda")
-        cont=0
-    elif contDer > contIzq and contDer > contMedio:
-        Movimiento.Derecha()
-        print("Linea a la derecha")
-        cont=0
-    elif contMedio > contIzq and contMedio > contDer:
+# 1. Definimos cu�ntos p�xeles m�nimos son necesarios para considerar que "hay una l�nea"
+#    (Tendr�s que ajustar este valor dependiendo del grosor de tu l�nea y la altura de la c�mara)
+    umbral = 400 
+
+    hay_izq = contIzq > umbral
+    hay_medio = contMedio > umbral
+    hay_der = contDer > umbral
+
+# 2. Hago movimientos basados en un SISTEMA DE PRIORIDADES
+    if hay_medio:
+        # Prioridad 1: Si hay l�nea en el centro, avanza. 
+        # Esto hace que en un cruce en "+" el robot ignore los lados y siga recto.
         Movimiento.Avanza()
-        print("Linea en medio")
-        cont=0
-    else: #Si no detecta linea va sumando en un contador y si llega a 100 ciclos el robot se quedara parado
-        if cont<20:
+        print("L�nea en medio")
+        cont = 0
+        
+    elif hay_izq:
+        # Prioridad 2: Si no hay l�nea en el centro (ej. una "T"), giramos siempre a la izquierda.
+        # Al darle prioridad a un lado, evitas que se quede paralizado sin saber qu� hacer.
+        Movimiento.Izquierda()
+        print("L�nea a la izquierda")
+        cont = 0
+        
+    elif hay_der:
+        # Prioridad 3: Si solo hay l�nea a la derecha, giramos a la derecha.
+        Movimiento.Derecha()
+        print("L�nea a la derecha")
+        cont = 0
+        
+    else: 
+        # Si no detecta l�nea en ninguna parte (todas est�n por debajo del umbral)
+        if cont < 20:
             Movimiento.Atras()
-            cont+=1
+            cont += 1
             print("Pa atras buscando linea")
             print(cont)
         else:
@@ -78,6 +96,6 @@ while True:
 
 cam.release() #Para dejar de usar la camara
 cv2.destroyAllWindows() #Para cerrar las pestanas
-Movimiento.stop()
+Movimiento.Stop()
 Movimiento.setVelocidad(0)
 
