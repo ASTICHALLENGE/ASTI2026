@@ -1,7 +1,8 @@
 from pymata4 import pymata4
 import time
 
-# Dejamos libres el 20 y 21. Usamos pares continuos para mayor orden en los cables.
+board = pymata4.Pymata4()
+
 # Sensor 1 (Adelante)
 trig1, echo1 = 22, 23
 # Sensor 2 (Derecha)
@@ -25,29 +26,17 @@ def leerUS(data):
     pin_trigger = data[1]
     distancia = data[2]
     
-    # Buscamos el nombre del sensor seg�n su pin
+    # Buscamos el nombre del sensor segun su pin
     nombre = nombres_sensores.get(pin_trigger, "Desconocido")
     
     print(f"Sensor {nombre}: {distancia} cm")
 
+board.set_pin_mode_sonar(trig1, echo1, leerUS)
+board.set_pin_mode_sonar(trig2, echo2, leerUS)
+board.set_pin_mode_sonar(trig3, echo3, leerUS)
+board.set_pin_mode_sonar(trig4, echo4, leerUS)
 
+print("�Sensores listos! Leyendo distancias...")
 
-print("Iniciando conexi�n con Arduino Mega...")
-board = pymata4.Pymata4()
-
-try:
-    print("Configurando los 4 sensores...")
-    board.set_pin_mode_sonar(trig1, echo1, leerUS)
-    board.set_pin_mode_sonar(trig2, echo2, leerUS)
-    board.set_pin_mode_sonar(trig3, echo3, leerUS)
-    board.set_pin_mode_sonar(trig4, echo4, leerUS)
-    
-    print("�Sensores listos! Leyendo distancias...")
-    
-    while True:
-        time.sleep(0.1)
-
-except KeyboardInterrupt:
-    print("\nDeteniendo programa...")
-finally:
-    board.shutdown()
+while True:
+    time.sleep(0.1)

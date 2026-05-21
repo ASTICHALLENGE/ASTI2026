@@ -22,9 +22,12 @@ distAct = {
     "Izquierda": 0,
     "Atras": 0
 }
+colorAct = {
+    
+}
 
 # Diccionario para saber que pin corresponde a que sensor
-nombres_sensores = {
+nombres_sensoresUS = {
     trig1: "Adelante",
     trig2: "Derecha",
     trig3: "Izquierda",
@@ -37,10 +40,15 @@ def leerUS(data):
     distancia = data[2]
     
     # Obtenemos el nombre del sensor (Adelante, Derecha...)
-    nombre = nombres_sensores.get(pin_trigger)
+    nombre = nombres_sensoresUS.get(pin_trigger)
     if nombre:
         # Actualizamos el valor en nuestro diccionario global
         distAct[nombre] = distancia
+
+def leerIR(data):
+    pinIR = data[1]
+    valor = data[2]
+
 
 # 3. Inicializamos los sensores
 print("Encendiendo sensores...")
