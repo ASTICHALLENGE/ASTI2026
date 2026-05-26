@@ -1,7 +1,5 @@
 from pymata4 import pymata4
 
-board = pymata4.Pymata4()
-
 # 11 --> Izquierda Arriba
 # 12 --> Izquierda Abajo
 # 21 --> Derecha Arriba
@@ -21,18 +19,21 @@ mot22R = 7
 
 vel=130
 
+board = None
+
 #Set Up
-board.set_pin_mode_pwm_output(mot11A)
-board.set_pin_mode_pwm_output(mot11R)
+def init_motores(placa_principal):
+    global board
+    board = placa_principal  # Enlazamos con la conexi�n del c�digo principal
 
-board.set_pin_mode_pwm_output(mot12A)
-board.set_pin_mode_pwm_output(mot12R)
-
-board.set_pin_mode_pwm_output(mot21A)
-board.set_pin_mode_pwm_output(mot21R)
-
-board.set_pin_mode_pwm_output(mot22A)
-board.set_pin_mode_pwm_output(mot22R)
+    board.set_pin_mode_pwm_output(mot11A)
+    board.set_pin_mode_pwm_output(mot11R)
+    board.set_pin_mode_pwm_output(mot12A)
+    board.set_pin_mode_pwm_output(mot12R)
+    board.set_pin_mode_pwm_output(mot21A)
+    board.set_pin_mode_pwm_output(mot21R)
+    board.set_pin_mode_pwm_output(mot22A)
+    board.set_pin_mode_pwm_output(mot22R)
 
 def Avanza():
     board.pwm_write(mot11A, vel)

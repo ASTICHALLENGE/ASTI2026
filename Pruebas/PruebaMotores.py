@@ -7,17 +7,17 @@ board = pymata4.Pymata4()
 # 21 --> Derecha Arriba
 # 22 --> Derecha Abajo
 
-mot11A = 3
-mot11R = 2
+mot11A = 5
+mot11R = 4
 
-mot12A = 4
-mot12R = 5
+mot12A = 6
+mot12R = 7
 
-mot21A = 8
-mot21R = 9
+mot21A = 2
+mot21R = 3
 
-mot22A = 4
-mot22R = 5
+mot22A = 8
+mot22R = 9
 
 vel = 130
 
@@ -34,8 +34,8 @@ board.set_pin_mode_pwm_output(mot22A)
 board.set_pin_mode_pwm_output(mot22R)
 try:
     while True:
-        board.pwm_write(mot22A, 0)
-        board.pwm_write(mot22R, vel)
+        board.pwm_write(mot21A, vel)
+        board.pwm_write(mot21R, 0)
 
 except KeyboardInterrupt:
     board.pwm_write(mot11A, 0)

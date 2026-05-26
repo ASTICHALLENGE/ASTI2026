@@ -8,21 +8,31 @@ import Omni
 board = pymata4.Pymata4()
 
 # Pines y variables
-trig1, echo1 = 22, 23 # Sensor 1 (Adelante)
-trig2, echo2 = 24, 25 # Sensor 2 (Derecha)
-trig3, echo3 = 26, 27 # Sensor 3 (Izquierda)
-trig4, echo4 = 28, 29 # Sensor 4 (Atras)
+# Sensor 1 (Adelante)
+trig1, echo1 = 49, 48
+# Sensor 2 (Derecha)
+trig2, echo2 = 43, 42
+# Sensor 3 (Izquierda)
+trig3, echo3 = 47, 46
+# Sensor 4 (Atras)
+trig4, echo4 = 45, 44
 
-ir1 = 30 # Sensor 1 (Adelante)
-ir2 = 31 # Sensor 2 (Derecha)
-ir3 = 32 # Sensor 3 (Izquierda)
-ir4 = 33 # Sensor 4 (Atras)
+# Sensor 1 (Adelante)
+ir1 = 50
+# Sensor 2 (Derecha)
+ir2 = 14
+# Sensor 3 (Izquierda)
+ir3 = 52
+# Sensor 4 (Atras)
+ir4 = 53
 
 blanco = 0
 negro = 1
 busqueda = 0
 cambioBusqueda = 10
 distBusqueda = 20
+
+Omni.init_motores(board)
 
 # 1. Creamos nuestro "Panel de Control" global
 distAct = {
@@ -106,21 +116,30 @@ try:
             if col1 == negro:
                 if col2 == negro:
                     Omni.AtrasIzq()
+                    print("Negro Arriba derecha")
                 elif col3 == negro:
                     Omni.AtrasDer()
+                    print("Negro Arriba Izquierda")
                 else:
                     Omni.Atras()
+                    print("Negro adelante")
             elif col4 == negro:
                 if col2 == negro:
                     Omni.AvanzaIzq()
+                    print("Negro Atras derecha")
                 elif col3 == negro:
                     Omni.AvanzaDer()
+                    print("Negro atras izquierda")
+
                 else:
                     Omni.Avanza()
+                    print("Negro atras")
             elif col2 == negro:
                 Omni.Izquierda()
+                print("Negro derecha")
             elif col3 == negro:
                 Omni.Derecha()
+                print("Negro izquierda")
             busqueda+=1
         else:
             # leo valor del diccionario
@@ -131,35 +150,43 @@ try:
             
             if dist1>0 and dist1<distBusqueda:
                 Omni.Avanza() 
+                print("Detecta de frente")
                 busqueda=0
 
             elif dist2>0 and dist2<distBusqueda:
                 Omni.Derecha()
+                print("Detecta a la derecha")
                 busqueda=0
 
             elif dist3>0 and dist3<distBusqueda:
                 Omni.Izquierda()
+                print("Detecta a la izquierda")
                 busqueda=0
 
             elif dist4>0 and dist4<distBusqueda:
                 Omni.Atras()
+                print("Detect atras")
                 busqueda=0
 
             elif busqueda>cambioBusqueda*3:
                 Omni.AtrasIzq()
+                print("Busqueda 4")
                 busqueda+=1
                 if busqueda>cambioBusqueda*4: busqueda=0
 
             elif busqueda>cambioBusqueda*2:
                 Omni.AtrasDer()
+                print("Busqueda 3")
                 busqueda+=1
 
             elif busqueda>cambioBusqueda:
                 Omni.AvanzaDer()
+                print("Busqueda 2")
                 busqueda+=1
 
             else:
                 Omni.AvanzaIzq()
+                print("Busqueda 1")
                 busqueda+=1
         
         time.sleep(0.1)
@@ -167,4 +194,5 @@ try:
 except KeyboardInterrupt:
     print("\nDeteniendo programa...")
 finally:
+    Omni.Stop()
     board.shutdown()
