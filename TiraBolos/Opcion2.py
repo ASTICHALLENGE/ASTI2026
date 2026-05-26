@@ -22,6 +22,7 @@ blanco = 0
 negro = 1
 busqueda = 0
 cambioBusqueda = 10
+distBusqueda = 20
 
 # 1. Creamos nuestro "Panel de Control" global
 distAct = {
@@ -128,19 +129,19 @@ try:
             dist3 = distAct["Izquierda"]
             dist4 = distAct["Atras"]
             
-            if dist1>0 and dist1<20:
+            if dist1>0 and dist1<distBusqueda:
                 Omni.Avanza() 
                 busqueda=0
 
-            elif dist2>0 and dist2<20:
+            elif dist2>0 and dist2<distBusqueda:
                 Omni.Derecha()
                 busqueda=0
 
-            elif dist3>0 and dist3<20:
+            elif dist3>0 and dist3<distBusqueda:
                 Omni.Izquierda()
                 busqueda=0
 
-            elif dist4>0 and dist4<20:
+            elif dist4>0 and dist4<distBusqueda:
                 Omni.Atras()
                 busqueda=0
 
