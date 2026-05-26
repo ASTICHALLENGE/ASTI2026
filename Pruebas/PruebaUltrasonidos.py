@@ -4,13 +4,13 @@ import time
 board = pymata4.Pymata4()
 
 # Sensor 1 (Adelante)
-trig1, echo1 = 22, 23
+trig1, echo1 = 49, 48
 # Sensor 2 (Derecha)
-trig2, echo2 = 24, 25
+trig2, echo2 = 43, 42
 # Sensor 3 (Izquierda)
-trig3, echo3 = 26, 27
+trig3, echo3 = 47, 46
 # Sensor 4 (Atras)
-trig4, echo4 = 28, 29
+trig4, echo4 = 45, 44
 
 # Diccionario para traducir el n�mero de pin al nombre del sensor
 nombres_sensores = {

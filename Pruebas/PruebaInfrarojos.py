@@ -4,16 +4,17 @@ import time
 board = pymata4.Pymata4()
 
 # Sensor 1 (Adelante)
-ir1 = 30
+ir1 = 50
 # Sensor 2 (Derecha)
-ir2 = 31
+ir2 = 14
 # Sensor 3 (Izquierda)
-ir3 = 32
+ir3 = 52
 # Sensor 4 (Atras)
-ir4 = 33
+ir4 = 53
 
 blanco = 0
 negro = 1
+color = "blanco"
 
 nombres_sensores = {
     ir1: "Adelante",
