@@ -33,6 +33,160 @@ opencv-contrib-python>=4.8.0
 
 ---
 
+## ⚠️ Importante: Entorno Virtual
+
+### ¿Por qué necesitas un entorno virtual?
+
+En sistemas modernos como **Raspberry Pi OS** (basado en Debian 12+) y otras distribuciones Linux recientes, Python está **gestionado externamente** por el sistema operativo. Esto significa que **NO puedes instalar paquetes directamente con `pip`** sin usar un entorno virtual.
+
+Si intentas ejecutar `pip install ultralytics` directamente, obtendrás este error:
+
+```
+error: externally-managed-environment
+
+× This environment is externally managed
+╰─> To install Python packages system-wide, try apt install
+    python3-xyz, where xyz is the package you are trying to
+    install.
+```
+
+**Solución**: Usar un **entorno virtual (venv)** que aísla las dependencias de tu proyecto sin afectar el sistema.
+
+### 📋 Configuración del Entorno Virtual
+
+#### Paso 1: Instalar python3-venv (si no está instalado)
+
+```bash
+sudo apt update
+sudo apt install python3-venv -y
+```
+
+#### Paso 2: Crear el entorno virtual
+
+Navega a la carpeta del proyecto y crea el entorno virtual:
+
+```bash
+cd ~/ASTI2026
+python3 -m venv venv
+```
+
+Esto creará una carpeta `venv/` en tu proyecto con una instalación aislada de Python.
+
+#### Paso 3: Activar el entorno virtual
+
+**En Linux/Raspberry Pi/Mac:**
+```bash
+source venv/bin/activate
+```
+
+**En Windows:**
+```bash
+venv\Scripts\activate
+```
+
+Cuando el entorno esté activado, verás `(venv)` al inicio de tu línea de comandos:
+```
+(venv) asti@raspberrypi:~/ASTI2026$
+```
+
+#### Paso 4: Instalar dependencias dentro del venv
+
+Ahora que el entorno virtual está activo, puedes instalar paquetes sin problemas:
+
+```bash
+pip install ultralytics opencv-contrib-python
+```
+
+#### Paso 5: Verificar la instalación
+
+```bash
+python -c "from ultralytics import YOLO; import cv2; print('✓ Instalación correcta')"
+```
+
+### 🔄 Uso diario del entorno virtual
+
+**⚠️ IMPORTANTE**: Debes **activar el entorno virtual cada vez** que abras una nueva terminal antes de ejecutar el código:
+
+```bash
+cd ~/ASTI2026
+source venv/bin/activate  # Linux/Mac
+# o
+venv\Scripts\activate     # Windows
+```
+
+Luego ejecuta tu código:
+```bash
+python TiraBolos/Opcion7_Python313.py
+```
+
+### 🛑 Desactivar el entorno virtual
+
+Cuando termines de trabajar, puedes desactivar el entorno:
+
+```bash
+deactivate
+```
+
+### 🔧 Solución de problemas con venv
+
+#### ❌ Error: "No module named 'venv'"
+
+**Solución**: Instala python3-venv:
+```bash
+sudo apt install python3-venv -y
+```
+
+#### ❌ Error: "Permission denied" al crear venv
+
+**Solución**: Verifica que tienes permisos de escritura en la carpeta:
+```bash
+ls -ld ~/ASTI2026
+# Si no tienes permisos:
+sudo chown -R $USER:$USER ~/ASTI2026
+```
+
+#### ❌ El comando `python` no funciona
+
+**Solución**: Usa `python3` en su lugar:
+```bash
+python3 -m venv venv
+```
+
+#### ❌ Olvidé activar el venv y obtuve error de módulos
+
+**Síntoma**:
+```
+ModuleNotFoundError: No module named 'ultralytics'
+```
+
+**Solución**: Activa el entorno virtual:
+```bash
+source venv/bin/activate
+```
+
+#### 🗑️ Eliminar y recrear el entorno virtual
+
+Si algo sale mal, puedes eliminar el entorno y crearlo de nuevo:
+
+```bash
+# Desactivar si está activo
+deactivate
+
+# Eliminar la carpeta venv
+rm -rf venv
+
+# Crear nuevo entorno
+python3 -m venv venv
+
+# Activar
+source venv/bin/activate
+
+# Reinstalar dependencias
+pip install ultralytics opencv-contrib-python
+```
+
+---
+
 ## 📦 Instalación
 
 ### Paso 1: Clonar el Repositorio
@@ -42,20 +196,32 @@ git clone https://github.com/tu-usuario/ASTI2026.git
 cd ASTI2026
 ```
 
-### Paso 2: Instalar Dependencias
+### Paso 2: Configurar Entorno Virtual
+
+**⚠️ IMPORTANTE**: Antes de instalar dependencias, debes crear y activar un entorno virtual (ver sección anterior "⚠️ Importante: Entorno Virtual").
+
+```bash
+# Instalar python3-venv si es necesario
+sudo apt install python3-venv -y
+
+# Crear entorno virtual
+python3 -m venv venv
+
+# Activar entorno virtual
+source venv/bin/activate  # Linux/Mac
+# o
+venv\Scripts\activate     # Windows
+```
+
+### Paso 3: Instalar Dependencias
+
+**Con el entorno virtual activado** (deberías ver `(venv)` en tu terminal):
+
 ```bash
 pip install ultralytics opencv-contrib-python
 ```
 
-**Nota**: Si usas un entorno virtual, actívalo primero:
-```bash
-python -m venv venv
-source venv/bin/activate  # En Linux/Mac
-# o
-venv\Scripts\activate  # En Windows
-```
-
-### Paso 3: Verificar la Instalación
+### Paso 4: Verificar la Instalación
 ```bash
 python -c "from ultralytics import YOLO; import cv2; print('✓ Instalación correcta')"
 ```
@@ -149,8 +315,17 @@ ASTI2026/
 
 ### Ejecución Básica
 
+**⚠️ RECUERDA**: Siempre activa el entorno virtual antes de ejecutar el código:
+
 ```bash
 cd ~/ASTI2026
+
+# Activar entorno virtual
+source venv/bin/activate  # Linux/Mac
+# o
+venv\Scripts\activate     # Windows
+
+# Ejecutar el programa
 python TiraBolos/Opcion7_Python313.py
 ```
 
@@ -339,13 +514,24 @@ Ruta buscada: /home/asti/ASTI2026/TiraBolos/models/bowling_pin_yolov8.pt
 **Síntoma**:
 ```
 ERROR: No se encuentra el módulo 'ultralytics'
+ModuleNotFoundError: No module named 'ultralytics'
 ```
+
+**Causa más común**: No has activado el entorno virtual.
 
 **Solución**:
 ```bash
-pip install ultralytics
-# o si usas pip3:
-pip3 install ultralytics
+# 1. Activar el entorno virtual
+cd ~/ASTI2026
+source venv/bin/activate  # Linux/Mac
+# o
+venv\Scripts\activate     # Windows
+
+# 2. Verificar que el módulo está instalado
+pip list | grep ultralytics
+
+# 3. Si no está instalado, instalarlo
+pip install ultralytics opencv-contrib-python
 ```
 
 ### ❌ Error: "Error al conectar la cámara"
