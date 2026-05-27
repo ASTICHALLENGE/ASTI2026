@@ -2,7 +2,7 @@ import time
 
 import sys
 sys.path.append('/home/asti/CodigosRobot')
-import Omni
+import OmniAlrevez as Omni
 
 Omni.setVelocidad(130)
 
