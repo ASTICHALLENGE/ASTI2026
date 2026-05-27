@@ -3,6 +3,10 @@ import sys
 sys.path.append('/home/asti/CodigosRobot')
 import Omni
 
+from pymata4 import pymata4
+board = pymata4.Pymata4()
+Omni.init_motores(board)
+
 try:
     mando = evdev.InputDevice('/dev/input/event5')
     print("Conectado")

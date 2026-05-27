@@ -5,17 +5,17 @@ from pymata4 import pymata4
 # 21 --> Derecha Arriba
 # 22 --> Derecha Abajo
 
-mot11A = 3
-mot11R = 2
+mot11A = 5
+mot11R = 4
 
-mot12A = 4
-mot12R = 5
+mot12A = 6
+mot12R = 7
 
-mot21A = 8
-mot21R = 9
+mot21A = 2
+mot21R = 3
 
-mot22A = 6
-mot22R = 7
+mot22A = 8
+mot22R = 9
 
 vel=130
 
@@ -140,19 +140,6 @@ def AtrasIzq():
     board.pwm_write(mot22R, vel)
 
 def GiroDer():
-    board.pwm_write(mot11A, vel)
-    board.pwm_write(mot11R, 0)
-    
-    board.pwm_write(mot12A, vel)
-    board.pwm_write(mot12R, 0)
-
-    board.pwm_write(mot21A, 0)
-    board.pwm_write(mot21R, vel)
-
-    board.pwm_write(mot22A, 0)
-    board.pwm_write(mot22R, vel)
-
-def GiroIzq():
     board.pwm_write(mot11A, 0)
     board.pwm_write(mot11R, vel)
     
@@ -164,6 +151,19 @@ def GiroIzq():
 
     board.pwm_write(mot22A, vel)
     board.pwm_write(mot22R, 0)
+
+def GiroIzq():
+    board.pwm_write(mot11A, vel)
+    board.pwm_write(mot11R, 0)
+    
+    board.pwm_write(mot12A, vel)
+    board.pwm_write(mot12R, 0)
+
+    board.pwm_write(mot21A, 0)
+    board.pwm_write(mot21R, vel)
+
+    board.pwm_write(mot22A, 0)
+    board.pwm_write(mot22R, vel)
 
 def Stop():
     board.pwm_write(mot11A, 0)
