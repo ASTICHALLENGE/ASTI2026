@@ -30,7 +30,7 @@ blanco = 0
 negro = 1
 busqueda = 0
 cambioBusqueda = 10
-distBusqueda = 40
+distBusqueda = 30
 
 Omni.init_motores(board)
 
@@ -95,16 +95,6 @@ board.set_pin_mode_sonar(trig2, echo2, leerUS)
 board.set_pin_mode_sonar(trig3, echo3, leerUS)
 board.set_pin_mode_sonar(trig4, echo4, leerUS)
 
-board.set_pin_mode_digital_input(ir1, callback=leerIR)
-board.set_pin_mode_digital_input(ir2, callback=leerIR)
-board.set_pin_mode_digital_input(ir3, callback=leerIR)
-board.set_pin_mode_digital_input(ir4, callback=leerIR)
-time.sleep(0.5) # Damos tiempo para que se estabilicen las primeras lecturas
-
-#Giro del principio
-Omni.setVelocidad(200)
-Omni.GiroDer()
-time.sleep(1.7)
 
 # 4. Bucle principal
 try:
@@ -171,15 +161,11 @@ try:
                 print("Detect atras")
                 busqueda=0
 
-            elif busqueda>cambioBusqueda*4:
-                Omni.GiroDer()
-                Busqueda+=1
-                if busqueda>cambioBusqueda*4.5: busqueda=0
-            
             elif busqueda>cambioBusqueda*3:
                 Omni.AtrasIzq()
                 print("Busqueda 4")
                 busqueda+=1
+                if busqueda>cambioBusqueda*4: busqueda=0
 
             elif busqueda>cambioBusqueda*2:
                 Omni.AtrasDer()

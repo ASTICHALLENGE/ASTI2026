@@ -8,7 +8,7 @@ ir1 = 50
 # Sensor 2 (Derecha)
 ir2 = 14
 # Sensor 3 (Izquierda)
-ir3 = 52
+ir3 = 16
 # Sensor 4 (Atras)
 ir4 = 53
 
