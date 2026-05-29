@@ -5,8 +5,8 @@ from pymata4 import pymata4
 # 21 --> Derecha Arriba
 # 22 --> Derecha Abajo
 
-mot11A = 4
-mot11R = 5
+mot11A = 9
+mot11R = 8
 
 mot12A = 7
 mot12R = 6
@@ -14,8 +14,8 @@ mot12R = 6
 mot21A = 3
 mot21R = 2
 
-mot22A = 9
-mot22R = 8
+mot22A = 4
+mot22R = 5
 
 vel=130
 vel1 = vel

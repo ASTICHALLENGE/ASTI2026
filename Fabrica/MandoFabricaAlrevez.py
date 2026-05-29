@@ -4,7 +4,7 @@ import threading # Para que el codigo vea mas de una cosa a la vez
 
 import sys
 sys.path.append('/home/asti/CodigosRobot')
-import Movimiento
+import MovimientoAlrevez as Movimiento
 
 from pymata4 import pymata4
 board = pymata4.Pymata4()
@@ -23,12 +23,13 @@ vel = 130
 apagado = False
 R2 = 0
 L2 = 0
+servo = 20
+board.set_pin_mode_servo(servo)
 
 
 
 try:
     for evento in mando.read_loop():
-        if R2 ==0 and L2==0: gatillo=False
         if evento.type == evdev.ecodes.EV_KEY:
             if evento.code == evdev.ecodes.BTN_MODE:
                 if evento.value == 1:
@@ -63,20 +64,22 @@ try:
             if evento.type == evdev.ecodes.EV_ABS: #EV_ABS detecta joysticks y gatillos
                 #Codigo para controlar velocidad con R2
                 if (evento.code == evdev.ecodes.ABS_RZ ): # Gatillo derecho
-                    Movimiento.setVelocidad(evento.value)
-                    print(evento.value)
-                    gatillo = True
                     R2 = evento.value
                 elif evento.code == evdev.ecodes.ABS_Z:
-                    Movimiento.setVelocidad(evento.value)
-                    print(evento.value)
-                    gatillo = True
                     L2=evento.value
+                if R2>0:
+                    board.servo_write(servo, 180)
+                    print("Abre garra")
+                elif L2>0:
+                    board.servo_write(servo, 0)
+                    print("Cierra garra")
+                elif L2==0 and R2==0:
+                    board.servo_write(servo, 95)
+                    print("Stop garra")
                 if evento.code == evdev.ecodes.ABS_X:
                     joyX = (evento.value - 128) / 1.28      # Operacion para cambiar a valores de -100 a 100
                 elif evento.code == evdev.ecodes.ABS_Y:
                     joyY = (128 - evento.value) / 1.28
-                if gatillo==False:
                     Movimiento.setVelocidad(vel)
                     if (joyY>50):
                         if(joyX>50):
@@ -107,27 +110,6 @@ try:
                     else:
                         Movimiento.Stop()
                         # print("Stop")
-                else:
-                    if R2>0:
-                        if(joyX>50):
-                            Movimiento.AvanzaDer()
-                            print("Avanza Derecha")
-                        elif(joyX<-50):
-                            Movimiento.AvanzaIzq()
-                            print("Avanza Izquierda")
-                        else:
-                            Movimiento.Avanza()
-                            print("Avanza")
-                    elif L2>0:
-                        if(joyX>50):
-                            Movimiento.AtrasDer()
-                            print("Atras Derecha")
-                        elif(joyX<-50):
-                            Movimiento.AtrasIzq()
-                            print("Atras Izquierda")
-                        else:
-                            Movimiento.Atras()
-                            print("Atras gatillo")
 
 
 

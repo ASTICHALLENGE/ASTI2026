@@ -4,7 +4,7 @@ import threading # Para que el codigo vea mas de una cosa a la vez
 
 import sys
 sys.path.append('/home/asti/CodigosRobot')
-import Movimiento
+import MovimientoAlrevez as Movimiento
 
 from pymata4 import pymata4
 board = pymata4.Pymata4()

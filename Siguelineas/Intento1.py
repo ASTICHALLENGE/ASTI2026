@@ -5,6 +5,10 @@ import sys
 sys.path.append('/home/asti/CodigosRobot')
 import Movimiento
 
+from pymata4 import pymata4
+board = pymata4.Pymata4()
+Movimiento.init_motores(board)
+
 cam = cv2.VideoCapture(0)
 cam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
@@ -13,7 +17,7 @@ if not cam.isOpened():
     exit()
 
 cont = 0
-Movimiento.setVelocidad(130)
+Movimiento.setVelocidad(160)
 
 while True:
 
@@ -22,7 +26,7 @@ while True:
         print("Error al tomar la foto")
         break # No uso exit para que no pare todo el codigo y llegue a la parte donde se borra todo
 
-    crop = frame[200:480, 0:640] # Hago la imagen un poco ms pqueÃ±a 
+    crop = frame[150:480, 0:640] # Hago la imagen un poco ms pqueÃ±a 
 
 
     gr = cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY) # Paso la foto a blanco y negro
@@ -56,8 +60,13 @@ while True:
     if hay_medio:
         # Prioridad 1: Si hay l�nea en el centro, avanza. 
         # Esto hace que en un cruce en "+" el robot ignore los lados y siga recto.
-        Movimiento.Avanza()
-        print("L�nea en medio")
+        if hay_der:
+            Movimiento.AvanzaDer()
+        elif hay_izq:
+            Movimiento.AvanzaIzq()
+        else:
+            Movimiento.Avanza()
+            print("L�nea en medio")
         cont = 0
         
     elif hay_izq:

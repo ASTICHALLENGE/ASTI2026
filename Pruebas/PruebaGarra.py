@@ -1,0 +1,33 @@
+from pymata4 import pymata4
+import time
+
+# Usaremos el pin 9 para este ejemplo
+servo1 = 20
+
+# 0 --> cierra
+# 95 --> stop
+# 180 --> abre
+
+print("Conectando con el Arduino Mega...")
+board = pymata4.Pymata4()
+
+try:
+    print("Iniciando servo...")
+    # 1. Configuramos el pin como salida de servo
+    board.set_pin_mode_servo(servo1)
+    time.sleep(1) # Le damos un segundo para estabilizarse
+    
+    print("Movimiento de prueba iniciado.")
+    
+
+
+    board.servo_write(servo1,180)
+    time.sleep(1)
+    board.servo_write(servo1, 95)
+    
+
+
+except KeyboardInterrupt:
+    print("\nDeteniendo y apagando...")
+finally:
+    board.shutdown()

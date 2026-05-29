@@ -173,7 +173,7 @@ try:
 
             elif busqueda>cambioBusqueda*4:
                 Omni.GiroDer()
-                Busqueda+=1
+                busqueda+=1
                 if busqueda>cambioBusqueda*4.5: busqueda=0
             
             elif busqueda>cambioBusqueda*3:

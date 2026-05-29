@@ -8,11 +8,11 @@ from pymata4 import pymata4
 mot11A = 5
 mot11R = 4
 
-mot12A = 6
-mot12R = 7
+mot12A = 2
+mot12R = 3
 
-mot21A = 2
-mot21R = 3
+mot21A = 6
+mot21R = 7
 
 mot22A = 8
 mot22R = 9
