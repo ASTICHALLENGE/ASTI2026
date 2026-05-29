@@ -85,8 +85,13 @@ while True:
     else: 
         # Si no detecta l�nea en ninguna parte (todas est�n por debajo del umbral)
         if cont < 20:
-            Movimiento.Atras()
             cont += 1
+            if cont < 10:
+                Movimiento.AtrasDer()
+            
+            else:
+                Movimiento.AtrasIzq()
+
             print("Pa atras buscando linea")
             print(cont)
         else:
