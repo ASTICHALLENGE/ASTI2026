@@ -30,7 +30,7 @@ blanco = 0
 negro = 1
 busqueda = 0
 cambioBusqueda = 10
-distBusqueda = 30
+distBusqueda = 40
 
 Omni.init_motores(board)
 

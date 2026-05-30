@@ -5,6 +5,10 @@ import sys
 sys.path.append('/home/asti/CodigosRobot')
 import Movimiento as mov
 
+from pymata4 import pymata4
+import time
+board = pymata4.Pymata4()
+
 cam = cv2.VideoCapture(0)
 cam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
@@ -13,6 +17,17 @@ if not cam.isOpened():
     exit()
 
 mov.setVelocidad(130)
+
+servoIzq = 20
+servoDer = 23
+
+board.set_pin_mode_servo(servoIzq)
+board.set_pin_mode_servo(servoDer)
+
+time.sleep(0.5) # Damos tiempo para que se estabilicen las primeras lecturas
+
+board.servo_write(servoIzq, 20)
+board.servo_write(servoDer, 180)
 
 while True:
     ret1, frame = cam.read() # Tomo la foto
