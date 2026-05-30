@@ -5,6 +5,9 @@ import time
 servo1 = 20
 servo2 = 23
 
+# 180 --> der
+# 20 --> izq 
+
 
 print("Conectando con el Arduino Mega...")
 board = pymata4.Pymata4()
@@ -21,7 +24,7 @@ try:
     while True:
 
         board.servo_write(servo1, 90)
-        board.servo_write(servo2, 180)
+        board.servo_write(servo2, 0)
 
 except KeyboardInterrupt:
     print("\nDeteniendo y apagando...")

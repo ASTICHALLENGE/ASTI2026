@@ -110,27 +110,6 @@ try:
                     else:
                         Movimiento.Stop()
                         # print("Stop")
-                else:
-                    if R2>0:
-                        if(joyX>50):
-                            Movimiento.AvanzaDer()
-                            print("Avanza Derecha")
-                        elif(joyX<-50):
-                            Movimiento.AvanzaIzq()
-                            print("Avanza Izquierda")
-                        else:
-                            Movimiento.Avanza()
-                            print("Avanza")
-                    elif L2>0:
-                        if(joyX>50):
-                            Movimiento.AtrasDer()
-                            print("Atras Derecha")
-                        elif(joyX<-50):
-                            Movimiento.AtrasIzq()
-                            print("Atras Izquierda")
-                        else:
-                            Movimiento.Atras()
-                            print("Atras gatillo")
 
 
 
